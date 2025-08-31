@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  object-detector-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    volumes:
+      - ./tests:/app/tests
+      - ./pytest.ini:/app/pytest.ini
+      - ./run_tests_complete.py:/app/run_tests_complete.py
+      - ./htmlcov:/app/htmlcov
+      - test-results:/app/test-results
+    environment:
+      - MODEL_PATH=/app/models/yolov8n.pt
+      - PYTHONPATH=/app
+      - CUDA_VISIBLE_DEVICES=
+    command: pytest tests/ -v --cov=app --cov-report=html --cov-report=term-missing --junit-xml=test-results/junit.xml
+    profiles:
+      - test
+
+volumes:
+  test-results:

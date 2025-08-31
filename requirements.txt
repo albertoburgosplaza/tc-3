@@ -1,0 +1,22 @@
+# Web framework and ASGI server
+fastapi==0.111.0          # High-performance web framework for building APIs with Python
+uvicorn[standard]==0.30.0 # ASGI server for running FastAPI applications
+
+# Image processing
+pillow==10.4.0           # Python Imaging Library for image handling and manipulation
+
+# CPU-only PyTorch dependencies
+torch==2.8.0+cpu         # CPU-only PyTorch - much smaller than full version
+torchvision==0.23.0+cpu  # CPU-only torchvision for image processing
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# Object detection model (will use CPU-only torch)
+ultralytics==8.2.0       # YOLOv8 implementation for real-time object detection
+
+# Testing dependencies
+pytest==7.4.4            # Modern testing framework for Python
+pytest-asyncio==0.21.1   # Async support for pytest
+pytest-cov==4.1.0        # Test coverage reporting
+pytest-mock==3.12.0      # Mocking utilities for pytest
+httpx==0.27.0             # HTTP client for testing FastAPI endpoints
+psutil==5.9.6             # System monitoring for performance tests

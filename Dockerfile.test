@@ -1,0 +1,31 @@
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app
+
+WORKDIR /app
+
+# Install system dependencies required for OpenCV and other libraries
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgl1 \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements and install Python dependencies (including test dependencies)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY app/ ./app/
+COPY models/ ./models/
+COPY main.py .
+
+# Copy test configuration
+COPY pytest.ini .
+
+# Create directories for test output
+RUN mkdir -p test-results htmlcov
+
+# Default command for running tests
+CMD ["pytest", "tests/", "-v", "--cov=app", "--cov-report=html", "--cov-report=term-missing"]
